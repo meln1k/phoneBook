@@ -18,7 +18,9 @@ object Application extends Controller {
   /**
    * Redirect to numbers list
    */
-  def index = TODO
+  def index = Action {
+    Redirect(routes.Application.list(0, 2, ""))
+  }
 
   /**
    * Display the paginated list of phone numbers.
