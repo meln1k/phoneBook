@@ -2,8 +2,22 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
+# Default path
 GET     /                           controllers.Application.index
+
+# Phone numbers list
+GET     /numbers                    controllers.Application.list(p:Int ?= 0, s:Int ?= 2, f ?= "")
+
+# Add phone number
+GET     /numbers/new                controllers.Application.create
+POST    /numbers                    controllers.Application.save
+
+# Edit existing number
+GET     /numbers/:id                controllers.Application.edit(id: Long)
+POST    /numbers/:id                controllers.Application.update(id: Long)
+
+# Delete a number
+GET     /numbers/:id/delete         controllers.Application.delete(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
