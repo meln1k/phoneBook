@@ -33,13 +33,41 @@ object Number {
   }
 
   /**
-   * Retrieve a Number from the id.
+   * Retrieve a Number by id.
    */
   def findById(id: Long): Option[Number] = {
     DB.withConnection { implicit connection =>
       SQL("select * from number where id = {id}").on('id -> id).as(Number.numberParser.singleOpt)
     }
   }
+
+  /**
+   * Retrieve a Number by name.
+   */
+  def findByName(name: String): Option[Number] = {
+    DB.withConnection { implicit connection =>
+      SQL("select * from number where name = {name}").on('name -> name).as(Number.numberParser.singleOpt)
+    }
+  }
+
+  /**
+   * Retrieve a Number by phoneNumber.
+   */
+  def findByPhoneNumber(phoneNumber: String): Option[Number] = {
+    DB.withConnection { implicit connection =>
+      SQL("select * from number where phoneNumber = {phoneNumber}").on('phoneNumber -> phoneNumber).as(Number.numberParser.singleOpt)
+    }
+  }
+
+  /**
+   * Check if a name is free to assign
+   */
+  def nameIsFree(name: String): Boolean = Number.findByName(name).isEmpty
+
+  /**
+   * Check if a phoneNumber is free to assign
+   */
+  def phoneNumberIsFree(phoneNumber: String): Boolean = Number.findByName(phoneNumber).isEmpty
 
   /**
    * Return a page of Number.
