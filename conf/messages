@@ -1,10 +1,6 @@
 # Messages
 
-numbers.list.title=Найдено записей: {0}
-phoneBook=Телефонный справочник
-done=Готово!
-nothingToDisplay=Записей нет
-filterByName=Искать по имени
+#number specific messages
 number.new=Добавить новый номер
 number.name=Имя
 number.phoneNumber=Номер телефона
@@ -15,11 +11,22 @@ number.deleted=Номер успешно удален!
 number.edit=Редактировать номер
 number.saveThisNumber=Сохранить данный номер
 number.deleteThisNumber=Удалить данный номер
+number.actions=Действия
+number.delete=Удалить
+numbers.list.title=Найдено записей: {0}
+
+#constraints
+constraint.required=обязательно
+constraint.phoneNumber=пример: +79221234567
+
+#others
+phoneBook=Телефонный справочник
+done=Готово!
+nothingToDisplay=Записей нет
+filterByName=Искать по имени
 cancel=Отмена
 or=или
 Unique=не должно повторяться
-constraint.required=обязательно
-constraint.phoneNumber=пример: +79221234567
 Previous=Назад
 Next=Далее
 Displaying=Показывается с
