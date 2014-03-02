@@ -16,11 +16,14 @@ import models._
 object Application extends Controller {
 
   /**
+   * This result redirect to the home page.
+   */
+  val Home = Redirect(routes.Application.list(0, 2, ""))
+
+  /**
    * Redirect to numbers list
    */
-  def index = Action {
-    Redirect(routes.Application.list(0, 2, ""))
-  }
+  def index = Action { Home }
 
   /**
    * Display the paginated list of phone numbers.
@@ -29,7 +32,12 @@ object Application extends Controller {
    * @param orderBy Column to be sorted
    * @param filter Filter applied on names
    */
-  def list(page: Int, orderBy: Int, filter: String) = TODO
+  def list(page: Int, orderBy: Int, filter: String) = Action { implicit request =>
+    Ok(html.list(
+      Number.list(page = page, orderBy = orderBy, filter = ("%"+filter+"%")),
+      orderBy, filter
+    ))
+  }
 
   /**
    * Display the 'new number form'.
