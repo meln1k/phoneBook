@@ -47,6 +47,7 @@
     <tr>
         @header(2, Messages("number.name"))
         @header(3, Messages("number.phoneNumber"))
+        @header(4, Messages("number.actions"))
     </tr>
     </thead>
     <tbody>
@@ -56,6 +57,7 @@
     <tr>
         <td><a href="@routes.Application.edit(number.id.get)">@number.name</a></td>
         <td>@number.phoneNumber</td>
+        <td><a class="btn" href="@routes.Application.delete(number.id.get)">@Messages("number.delete")</a></td>
     </tr>
     }
     }
