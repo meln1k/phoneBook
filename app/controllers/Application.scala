@@ -10,6 +10,7 @@ import anorm._
 import views._
 import models._
 import play.api.data.validation.Constraints
+import play.api.i18n._
 
 /**
  * Manage a phone numbers database

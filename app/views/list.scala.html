@@ -45,8 +45,8 @@
 <table class="numbers zebra-striped">
     <thead>
     <tr>
-        @header(2, "Name")
-        @header(3, "PhoneNumber")
+        @header(2, Messages("number.name"))
+        @header(3, Messages("number.phoneNumber"))
     </tr>
     </thead>
     <tbody>
@@ -71,11 +71,11 @@
         </li>
         }.getOrElse {
         <li class="prev disabled">
-            <a>&larr; Previous</a>
+            <a>&larr; @Messages("Previous")</a>
         </li>
         }
         <li class="current">
-            <a>Displaying @(currentPage.offset + 1) to @(currentPage.offset + numbers.size) of @currentPage.total</a>
+            <a>@Messages("Displaying") @(currentPage.offset + 1) @Messages("to") @(currentPage.offset + numbers.size) @Messages("of") @currentPage.total</a>
         </li>
         @currentPage.next.map { page =>
         <li class="next">
@@ -83,7 +83,7 @@
         </li>
         }.getOrElse {
         <li class="next disabled">
-            <a>Next &rarr;</a>
+            <a>@Messages("Next") &rarr;</a>
         </li>
         }
     </ul>
