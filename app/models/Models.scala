@@ -2,6 +2,8 @@ package models
 
 import play.api.db._
 import play.api.Play.current
+import play.api.data.validation._
+
 
 import anorm._
 import anorm.SqlParser._
@@ -67,7 +69,46 @@ object Number {
   /**
    * Check if a phoneNumber is free to assign
    */
-  def phoneNumberIsFree(phoneNumber: String): Boolean = Number.findByName(phoneNumber).isEmpty
+  def phoneNumberIsFree(phoneNumber: String): Boolean = Number.findByPhoneNumber(phoneNumber).isEmpty
+
+  /**
+   * Constraint for unique name
+   */
+  val nameCheckConstraint: Constraint[String] = Constraint("Unique")({
+    plainText =>
+      val errors = plainText match {
+        case name if !nameIsFree(name) => Seq(ValidationError("name already exists"))
+        case _ => Nil
+      }
+      if (errors.isEmpty) {
+        Valid
+      } else {
+        Invalid(errors)
+      }
+  })
+
+  /**
+   * Constraint for phoneNumber
+   */
+  val numberFormat = """^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$""".r
+
+  val phoneNumberIsRealConstraint = Constraints.pattern(
+    numberFormat,
+    "constraint.phoneNumber",
+    "error.phoneNumber")
+
+  val phoneNumberIsUniqueConstraint: Constraint[String] = Constraint("Unique")({
+    plainText =>
+      val errors = plainText match {
+        case phoneNumber if !phoneNumberIsFree(phoneNumber) => Seq(ValidationError("name already exists"))
+        case _ => Nil
+      }
+      if (errors.isEmpty) {
+        Valid
+      } else {
+        Invalid(errors)
+      }
+  })
 
   /**
    * Return a page of Number.

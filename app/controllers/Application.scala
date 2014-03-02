@@ -9,6 +9,7 @@ import anorm._
 
 import views._
 import models._
+import play.api.data.validation.Constraints
 
 /**
  * Manage a phone numbers database
@@ -19,6 +20,17 @@ object Application extends Controller {
    * This result redirect to the home page.
    */
   val Home = Redirect(routes.Application.list(0, 2, ""))
+
+  /**
+   * The number form.
+   */
+  val numberForm = Form(
+    mapping(
+      "id" -> ignored(NotAssigned:Pk[Long]),
+      "name" -> nonEmptyText.verifying(Number.nameCheckConstraint),
+      "phoneNumber" -> nonEmptyText.verifying(Number.phoneNumberIsUniqueConstraint, Number.phoneNumberIsRealConstraint)
+    )(Number.apply)(Number.unapply)
+  )
 
   /**
    * Redirect to numbers list
@@ -42,12 +54,22 @@ object Application extends Controller {
   /**
    * Display the 'new number form'.
    */
-  def create = TODO
+  def create = Action {
+    Ok(html.createForm(numberForm))
+  }
 
   /**
    * Handle the 'new number form' submission.
    */
-  def save = TODO
+  def save = Action { implicit request =>
+    numberForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(html.createForm(formWithErrors)),
+      number => {
+        Number.insert(number)
+        Home.flashing("success" -> Messages("number.created", number.name))
+      }
+    )
+  }
 
   /**
    * Display the 'edit form' of a existing number.
