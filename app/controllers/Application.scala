@@ -77,20 +77,35 @@ object Application extends Controller {
    *
    * @param id Id of the number to edit
    */
-  def edit(id: Long) = TODO
+  def edit(id: Long) = Action {
+    Number.findById(id).map { number =>
+      Ok(html.editForm(id, numberForm.fill(number)))
+    }.getOrElse(NotFound)
+  }
 
   /**
    * Handle the 'edit form' submission.
    *
    * @param id Id of the number to edit
    */
-  def update(id: Long) = TODO
+  def update(id: Long) = Action { implicit request =>
+    numberForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(html.editForm(id, formWithErrors)),
+      number => {
+        Number.update(id, number)
+        Home.flashing("success" -> Messages("number.updated", number.name))
+      }
+    )
+  }
 
   /**
    * Handle number deletion.
    *
    * @param id Id of the number to delete
    */
-  def delete(id: Long) = TODO
+  def delete(id: Long) = Action {
+    Number.delete(id)
+    Home.flashing("success" -> Messages("number.deleted"))
+  }
 
 }

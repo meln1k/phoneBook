@@ -1,0 +1,31 @@
+@(id: Long, numberForm: Form[Number])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main {
+    
+    <h1>@Messages("number.edit")</h1>
+    
+    @form(routes.Application.update(id)) {
+        
+        <fieldset>
+
+            @inputText(numberForm("name"), '_label -> Messages("number.name"))
+            @inputText(numberForm("phoneNumber"), '_label -> Messages("number.phoneNumber"))
+        
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" value="@Messages("number.saveThisNumber")" class="btn primary"> @Messages("or")
+            <a href="@routes.Application.list()" class="btn">@Messages("cancel")</a>
+        </div>
+        
+    }
+    
+    @form(routes.Application.delete(id), 'class -> "topRight") {
+        <input type="submit" value="@Messages("number.deleteThisNumber")" class="btn danger">
+    }
+    
+}
