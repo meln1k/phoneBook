@@ -88,15 +88,24 @@ object Number {
   })
 
   /**
-   * Constraint for phoneNumber
+   * Constraints for phoneNumber
+   */
+
+  /**
+   * regex for number format check
    */
   val numberFormat = """^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$""".r
 
+  /**
+   * constraint based on the regex above
+   */
   val phoneNumberIsRealConstraint = Constraints.pattern(
     numberFormat,
     "constraint.phoneNumber",
     "error.phoneNumber")
-
+  /**
+   * constraint checking that phoneNumber is unique
+   */
   val phoneNumberIsUniqueConstraint: Constraint[String] = Constraint("Unique")({
     plainText =>
       val errors = plainText match {
@@ -170,7 +179,7 @@ object Number {
       ).on(
           'id -> id,
           'name -> number.name,
-          'phoneNumber -> number.phoneNumber
+          'phoneNumber -> number.phoneNumber.filter(_.isDigit)
         ).executeUpdate()
     }
   }
@@ -191,7 +200,7 @@ object Number {
         """
       ).on(
           'name -> number.name,
-          'phoneNumber -> number.phoneNumber
+          'phoneNumber -> number.phoneNumber.filter(_.isDigit)
         ).executeUpdate()
     }
   }

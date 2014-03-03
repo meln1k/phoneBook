@@ -6,8 +6,8 @@ set ignorecase true;
 
 create table number (
   id                        bigint not null,
-  name                      varchar(255) not null,
-  phoneNumber               varchar(255) not null,
+  name                      varchar(255) not null unique,
+  phoneNumber               varchar(255) not null unique,
   constraint pk_number primary key (id))
 ;
 
